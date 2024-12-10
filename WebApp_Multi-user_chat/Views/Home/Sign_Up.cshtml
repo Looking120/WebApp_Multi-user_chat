@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Sign_Up";
+}
+
+<div>
+    <!-- blue circle background -->
+    <div class="d-none d-md-block ball login position-absolute rounded-circle"></div>
+
+    <!-- Login Section -->
+    <div id="registerSection" class="container login__form active">
+        <div class="row vh-100 w-100 align-self-center">
+            <div class="col-12 col-lg-6 col-xl-6 px-5">
+                <div class="row vh-100">
+                    <div class="col align-self-center p-5 w-100">
+                        <h3 class="fw-bolder">Sign Up!</h3>
+                        <!-- Formulaire d'inscription -->
+                        <form id="registerForm" class="mt-5">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username"
+                                       class="form-control text-indent shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3"
+                                       placeholder="John2254">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email"
+                                       class="form-control text-indent shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3"
+                                       placeholder="john45@exemple.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label">Password</label>
+                                <div class="d-flex position-relative">
+                                    <input type="password" id="newPassword" name="newPassword"
+                                           class="form-control text-indent auth__password shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3">
+                                    <span class="password__icon text-primary fs-4 fw-bold bi bi-eye-slash"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <div class="d-flex position-relative">
+                                    <input type="password" id="confirmPassword" name="confirmPassword"
+                                           class="form-control text-indent auth__password shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3">
+                                    <span class="password__icon text-primary fs-4 fw-bold bi bi-eye-slash"></span>
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                <button id="registerBtn" type="button"
+                                        class="btn btn-outline-dark btn-lg rounded-pill mt-4 w-100">
+                                    Sign Up
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="d-none d-lg-block col-lg-6 col-xl-6 p-5">
+                <div class="row vh-100 p-5">
+                    <div class="col align-self-center p-5 text-center">
+                        <img src="@Url.Content("~/lib/3.png")" class="bounce" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Optional JavaScript -->
+    <script>
+        $(document).ready(function () {
+            $('#registerBtn').click(function () {
+
+                const username = $('#username').val();
+                const email = $('#email').val();
+                const password = $('#newPassword').val();
+                const confirmPassword = $('#confirmPassword').val();
+                console.log("username: " + username + "email: " + email + "newPassword: " + password + "confirmedPassword: " + confirmPassword)
+                // Vérifiez si tous les champs sont remplis
+                if (!username || !email || !password || !confirmPassword) {
+                    alert('Veuillez remplir tous les champs.');
+                    return;
+                }
+
+                // Vérifiez si les mots de passe correspondent
+                if (password !== confirmPassword) {
+                    alert('Les mots de passe ne correspondent pas.');
+                    return;
+                }
+
+                // Requête AJAX pour l'inscription
+                $.ajax({
+                    url: '/api/register',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ userName: username, email: email, password: password }),
+                    success: function (data) {
+                        if (data) {
+                            window.location.href = '/Home/Chat';
+                            $('#RegisterSection').hide();
+                            $('#chatSection').show();
+                        } else {
+                            alert('Échec de l\'inscription : ' + data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur AJAX :', error);
+                        alert('Erreur lors de l\'inscription : ' + error);
+                    }
+                });
+            });
+
+        })
+    </script>
+</div>

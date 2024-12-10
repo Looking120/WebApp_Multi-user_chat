@@ -1,0 +1,161 @@
+﻿/* Text indentation */
+.text-indent {
+    text-indent: 0.5rem;
+}
+
+/* Add password hide and show icon */
+.password__icon {
+    position: absolute;
+    right: 0;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+/* Background grey */
+.bg-grey-light {
+    background: #f0f0f0;
+}
+
+    .bg-grey-light:focus {
+        background: #f0f0f0;
+    }
+
+/* Styles for larger screens */
+@media (min-width: 1024px) {
+    body {
+        overflow-y: hidden;
+    }
+
+    /* Add circular blue background */
+    .ball {
+        overflow: hidden;
+        transition: margin 1s;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%; /* Make it circular */
+        background: linear-gradient(135deg, rgba(20, 90, 120, 0.9), /* Deep blue with a hint of black */
+        rgba(15, 60, 90, 0.85) /* Darker shade for added depth */
+        );
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+    }
+
+        .ball.login {
+            margin-left: 50%;
+            margin-top: 5%;
+        }
+
+        .ball.register {
+            margin-left: 14%;
+            margin-top: 6%;
+        }
+
+    /* Bouncing effect */
+    .bounce {
+        animation: bounce 2s infinite alternate;
+        -webkit-animation: bounce 2s infinite alternate;
+    }
+
+    @keyframes bounce {
+        from {
+            transform: translateY(0px);
+        }
+
+        to {
+            transform: translateY(-35px);
+        }
+    }
+
+    @-webkit-keyframes bounce {
+        from {
+            transform: translateY(0px);
+        }
+
+        to {
+            transform: translateY(-35px);
+        }
+    }
+}
+
+/* Styles for medium screens */
+@media (max-width: 768px) {
+    .container .col-12.p-5 {
+        padding: 0px !important;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+}
+
+/* Register default */
+.register__form {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    margin-left: -100%;
+    opacity: 0;
+    transition: margin 1s, opacity 0.5s;
+    z-index: 1;
+}
+
+    /* Register form active */
+    .register__form.active {
+        margin-left: 0%;
+        opacity: 1;
+    }
+
+/* Header styles */
+.header {
+    background: linear-gradient(135deg, rgba(20, 90, 120, 0.9), /* Deep blue with a hint of black */
+    rgba(15, 60, 90, 0.85) /* Darker shade for added depth */
+    );
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+    color: #fff; /* White text for contrast */
+}
+
+/* Text styling for forms */
+form {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+    form .form-outline {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    form button {
+        background-color: rgba(20, 90, 120, 0.9);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        form button:hover {
+            background-color: rgba(15, 60, 90, 1);
+        }
+
+/* Responsive circular background for small devices */
+@media (max-width: 576px) {
+    .ball {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Default body background */
+body {
+    background-color: #eef3f8; /* Light grey background for contrast */
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}

@@ -1,0 +1,25 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+### Authenticate User
+POST http://localhost:5236/api/authenticate
+Content-Type: application/json
+
+{
+  "userName": "nathan007",
+  "password": "Nathan_musoko123"
+}
+
+###
+
+### Register User
+POST http://localhost:5236/api/register
+Content-Type: application/json
+
+{
+  "Email" : "josh@gmail.com",
+  "userName": "josh007ty",
+  "password": "Nathan_musoko123"
+}
+
+###
+GET http://localhost:5236/api/users

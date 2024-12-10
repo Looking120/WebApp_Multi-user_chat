@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "Login1";
+}
+
+<div>
+    <!-- blue circle background -->
+    <div class="d-none d-md-block ball login position-absolute rounded-circle"></div>
+    <!-- Login Section -->
+    <div id="loginSection" class="container login__form active">
+        <div class="row vh-100 w-100 align-self-center">
+            <div class="col-12 col-lg-6 col-xl-6 px-5">
+                <div class="row vh-100">
+                    <div class="col align-self-center p-5 w-100">
+                        <h3 class="fw-bolder">Log In</h3>
+                        <p class="fw-lighter fs-6">
+                            Don't have an account? 
+                            <span id="signUp" role="button" class="text-primary">Sign Up</span>
+                        </p>
+                        <!-- form login section -->
+                        <form  action="" method="post" class="mt-5">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username" 
+                                       class="form-control text-indent shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3" 
+                                       placeholder="John2254">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="d-flex position-relative">
+                                    <input type="password" id="password" name="password" 
+                                           class="form-control text-indent auth__password shadow-sm bg-grey-light border-0 rounded-pill fw-lighter fs-7 p-3">
+                                    <span class="password__icon text-primary fs-4 fw-bold bi bi-eye-slash"></span>
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                <a  id="loginBtn" class="btn btn-outline-dark btn-lg rounded-pill mt-4 w-100">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="d-none d-lg-block col-lg-6 col-xl-6 p-5">
+                <div class="row vh-100 p-5">
+                    <div class="col align-self-center p-5 text-center">
+                        <img src="@Url.Content("~/lib/31.png")" class="bounce" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+   
+ 
+</div>
+<script src="~/js/chat.js"></script>

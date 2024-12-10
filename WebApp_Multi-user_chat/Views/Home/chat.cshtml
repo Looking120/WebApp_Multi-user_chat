@@ -1,0 +1,254 @@
+﻿@{
+    ViewData["Title"] = "Chat";
+}
+
+<section>
+    <div class="container py-5 my-5 rounded mx-auto" style="max-width: 80%; background: linear-gradient(135deg, #444, #555); color: #f1f1f1;">
+        <div class="row">
+            <!-- Members Section -->
+            <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
+                <h5 class="font-weight-bold mb-3 text-center text-lg-start text-white">Membres en ligne</h5>
+
+                <!-- Search Bar -->
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control bg-body-tertiary border border-light text-dark" placeholder="Rechercher..." aria-label="Search members">
+                    <span class="input-group-text bg-body-tertiary border border-light">
+                        <i class="fas fa-search text-dark"></i>
+                    </span>
+                </div>
+
+                <!-- Members List -->
+                <div class="card rounded" style="background-color: #444;">
+                    <div class="card-body">
+                        <ul id="membersList" class="list-unstyled mb-0">
+                            <!-- Les membres seront affichés ici via API -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div id="chatSection" class="col-md-8 col-12 d-flex flex-column" style="display: none; position: relative; height: 500px; overflow-y: auto; overflow-x: hidden;">
+                <!-- Nom de l'utilisateur en chat -->
+                <h5 id="chatWithUser" class="text-white border-bottom py-2 mb-0"><span id="chatUserName"></span></h5>
+
+                <!-- Liste des messages -->
+                <div id="messagesContainer" class="flex-grow-1 overflow-auto p-3" style="background-color: #f1f1f1; overflow-x: hidden;">
+                    <ul id="messagesList" class="list-unstyled">
+                        <!-- Messages seront ajoutés ici -->
+                    </ul>
+                </div>
+
+                <!-- Zone de texte (fixée en bas) -->
+                <div class="bg-dark py-3 px-3" style="bottom: 0; left: 0; right: 0;">
+                    <div class="d-flex align-items-center">
+                        <!-- Bouton pièce jointe -->
+                        <div class="d-flex align-items-center">
+                            <label for="fileInput" class="me-2">
+                                <i class="fas fa-paperclip"></i>
+                            </label>
+                            <input type="file" id="fileInput" class="form-control-file" multiple style="display: none;" />
+                        </div>
+
+                        <!-- Zone de texte -->
+                        <textarea id="textAreaExample2" class="form-control bg-body-tertiary border-light text-dark me-2" rows="1" placeholder="Écrivez un message..." style="resize: none; word-wrap: break-word;"></textarea>
+
+
+                        <!-- Bouton d'envoi -->
+                        <button type="button" class="btn btn-success send-button" id="sendButton">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            let userId;
+            const newMessagesMap = {};
+            const currentUser = JSON.parse(localStorage.getItem("user")); // Utilisateur connecté
+
+            // Récupérer les membres en ligne
+            function fetchOnlineMembers() {
+                $.ajax({
+                    url: '/api/users',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        const memberList = $('#membersList');
+                        memberList.empty();
+
+                        data.forEach(member => {
+                            // Exclure l'utilisateur connecté
+                            if (member.id === currentUser.id) return;
+
+                            const firstLetter = member.userName.charAt(0).toUpperCase();
+                            const memberHtml = `
+                                <li class="p-2" id="member-${member.id}">
+                                    <a href="#!" class="d-flex align-items-center text-decoration-none text-light" data-userid="${member.id}" data-username="${member.userName}">
+                                        <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold" style="width: 40px; height: 40px;">
+                                            ${firstLetter}
+                                        </div>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-0">${member.userName}</p>
+                                            <span class="badge bg-danger text-white ms-2 new-message-indicator" style="display: none;">New</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            `;
+                            memberList.append(memberHtml);
+                        });
+
+                        // Événement clique sur un membre
+                        $('#membersList a').on('click', function (e) {
+                            e.preventDefault();
+                            userId = $(this).data('userid');
+                            const userName = $(this).data('username');
+
+                            $('#chatSection').show();  // Afficher la section de chat
+                            $('#chatUserName').text(userName);
+                            newMessagesMap[userId] = false;
+                            $(`#member-${userId} .new-message-indicator`).hide();
+
+                            fetchMessages(userId);
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la récupération des membres:', error);
+                    }
+                });
+            }
+
+            // Fonction de recherche des membres
+            $('#searchInput').on('input', function () {
+                const searchTerm = $(this).val().toLowerCase();
+                $('#membersList li').each(function () {
+                    const userName = $(this).find('.ms-3 p').text().toLowerCase();
+                    if (userName.indexOf(searchTerm) !== -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            // Récupérer les messages pour l'utilisateur sélectionné
+            function fetchMessages(userId) {
+                if (!userId) return;
+
+                const senderId = currentUser.id;
+
+                $.ajax({
+                    url: `/api/messages?senderId=${senderId}&receiverId=${userId}`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (messages) {
+                        const messagesList = $('#messagesList');
+                        messagesList.empty();
+
+                        messages.forEach(message => {
+                            appendMessage(message, message.senderId === senderId);
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de la récupération des messages:', error);
+                    }
+                });
+            }
+
+            // Ajouter un message à la liste
+            function appendMessage(message, isSender) {
+                const messageAlignment = isSender ? 'justify-content-end' : 'justify-content-start';
+                const messageBg = isSender ? 'bg-success text-white' : 'bg-light text-dark';
+
+                let attachmentsHtml = '';
+                if (message.attachments && message.attachments.length > 0) {
+                    message.attachments.forEach(att => {
+                        attachmentsHtml += `
+                                <div>
+                                    <a href="/api/messages/download?id=${att.id}" class="text-primary" download>
+                                        📎 ${att.fileName}
+                                    </a>
+                                </div>`;
+                    });
+                }
+
+                $('#messagesList').append(`
+                        <li class="d-flex ${messageAlignment} mb-3">
+                            <div class="message-content ${messageBg} rounded-3 p-2" style="max-width: 70%; word-wrap: break-word;">
+                                <strong>${isSender ? '' : ''}</strong> ${message.message}
+                                ${attachmentsHtml}
+                            </div>
+                        </li>
+                    `);
+
+                scrollToBottom();
+            }
+
+            // Défilement automatique vers le bas
+            function scrollToBottom() {
+                const messagesList = $('#messagesList');
+                messagesList.scrollTop(messagesList[0].scrollHeight);
+            }
+
+            // Envoyer un message
+            $('#sendButton').on('click', function () {
+                const messageText = $('#textAreaExample2').val().trim();
+                if (!messageText) {
+                    alert("Le message ne peut pas être vide!");
+                    return;
+                }
+
+                const messageData = {
+                    message: messageText,
+                    senderId: currentUser.id,
+                    receiverId: userId
+                };
+
+                $.ajax({
+                    url: '/api/messages',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(messageData),
+                    success: function (response) {
+                        $('#textAreaExample2').val(''); // Clear the textarea
+                        appendMessage(response, true); // Ajouter le message envoyé
+
+                        // Gestion des fichiers joints
+                        if ($('#fileInput')[0].files.length > 0) {
+                            const formData = new FormData();
+                            const files = $('#fileInput')[0].files;
+                            for (let i = 0; i < files.length; i++) {
+                                formData.append("files", files[i]);
+                            }
+
+                            $.ajax({
+                                url: `/api/messages/${response.id}`,
+                                method: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function () {
+                                    $('#fileInput').val(''); // Clear the file input
+                                },
+                                error: function (error) {
+                                    console.error("Error sending files:", error);
+                                }
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Erreur lors de l\'envoi du message:', error);
+                    }
+                });
+            });
+
+            // Récupérer les membres lors du chargement initial
+            fetchOnlineMembers();
+        });
+
+    </script>
+</section>

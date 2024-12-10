@@ -1,0 +1,57 @@
+﻿
+#attachmentMenu {
+    display: none;
+    background-color: #444;
+    position: absolute;
+    z-index: 100;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style des items du menu */
+.dropdown-item {
+    background-color: #444;
+    color: #f1f1f1;
+    border: none;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+    /* Couleur beige pour les icônes */
+    .dropdown-item i {
+        font-size: 24px;
+        color: #f1f1f1;
+        margin-right: 8px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #555;
+    }
+
+/* Agrandir l'icône du trombone */
+#attachmentButton i {
+    font-size: 28px;
+    color: #f1f1f1;
+}
+
+/* Assurer que le bouton d'attachement est centré */
+.attachment-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style du bouton envoyer */
+.send-button {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+    .send-button i {
+        font-size: 20px;
+    }

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null; // Définir si ce composant fait partie d'un layout global
+}
+ <link rel="stylesheet" href="~/css/header.css"  />
+
+<header class="header">
+    <div class="hero-container">
+
+             <nav class="nav container">
+        <!-- Logo -->
+        <a asp-controller="Home" asp-action="Index" class="nav-logo">LINKify</a>
+
+        <!-- Menu -->
+        <div id="nav-menu" class="nav-menu">
+            <ul>
+                <li class="nav-items">
+                    <a asp-controller="Contact" asp-action="Index" class="nav-link">
+                       Privancy
+                    </a>
+                </li>
+            </ul>
+            <!-- Bouton pour fermer le menu -->
+            <i class="uil uil-times-circle nav-close" onclick="toggleMenu()"></i>
+        </div>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <div class="nav-toggle" onclick="toggleMenu()">
+            <i class="uil uil-apps"></i>
+        </div>
+    </nav>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Linkify</h1>
+                    <h2>Bridge the gaps<br />link minds<br />start the chat</h2>
+                    <p>
+                        "At Linkify, we bridge the gap in communication with seamless, 
+                        real-time chat solutions. Our platform connects minds and fosters collaboration, 
+                        making it simple to communicate and share ideas. 
+                        Whether for personal conversations or team collaboration, 
+                        Linkify is designed to keep you linked, anytime and anywhere."
+                    </p>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="@Url.Action("Login1", "Home")" class="btn-primary" role="button">Log In</a>
+                    <a href="@Url.Action("Sign_Up", "Home")" class="btn-secondary" role="button">Sign Up</a>
+                </div>
+
+
+            </div>
+            <div class="hero-images">
+                <img src="~/lib/2.png" alt="Hero" />
+            </div>
+        </section>
+        <section class="line"></section>
+    </div>
+</header>

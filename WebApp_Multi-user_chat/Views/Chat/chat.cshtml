@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Chat"]</title>
+    <link rel="stylesheet" href="~/css/style.css"> <!-- Si vous avez des styles -->
+</head>
+<body>
+    <div id="chatSection" style="display: none;">
+        <p>Bienvenue dans le chat !</p>
+        <div id="messages">
+            <!-- Les messages s'afficheront ici -->
+        </div>
+        <input type="text" id="messageInput" placeholder="Tapez votre message..." />
+        <button id="sendBtn">Envoyer</button>
+    </div>
+    <script src="~/js/chat.js"></script> 
+</body>
+</html>

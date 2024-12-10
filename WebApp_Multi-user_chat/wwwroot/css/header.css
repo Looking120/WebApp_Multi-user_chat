@@ -1,0 +1,409 @@
+﻿
+/*--------------------------------- BASE -------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+:root {
+    --header-height: 3rem;
+    /*--------- Colors --------------*/
+    /*  Color mode HSL(hue, saturation, lightness)  */
+    --hue: 0;
+    --sat: 0%;
+    --title-color: hsl(var(--hue), var(--sat), 80%);
+    --title-color-dark: hsl(var(--hue), var(--sat), 0%);
+    --text-color: hsl(var(--hue), var(--sat), 46%);
+    --body-color: hsl(var(--hue), var(--sat), 20%);
+    --container-color: #fff;
+    /*--------------- Font and typography -------------*/
+    --big-font-size: 3.5rem;
+    --h1-font-size: 2.25rem;
+    --h2-font-size: 1.5rem;
+    --h3-font-size: 1.25rem;
+    --normal-font-size: 1rem;
+    --small-font-size: 1.2rem;
+    --smaller-font-size: 0.813rem;
+    --tiny-font-size: 1rem;
+    /*-------------- Font weight -----------*/
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semi-bold: 600;
+    /*------------ MB ------------------*/
+    /*.5rem = 8px | 1rem = 16px ...*/
+    --mb-0-25: 0.25rem;
+    --mb-0-5: 0.5rem;
+    --mb-0-75: 0.75rem;
+    --mb-1: 1rem;
+    --mb-1-5: 1.5rem;
+    --mb-2: 2rem;
+    --mb-2-5: 2.5rem;
+    --mb-3: 3rem;
+    /*-------------- z index ----------------*/
+    --z-tooltip: 10;
+    --z-fixed: 100;
+    --z-modal: 1000;
+}
+
+/* Responsive typography */
+@media screen and (max-width: 992px) {
+    :root {
+        --big-font-size: 2.75rem;
+        --h1-font-size: 1.5rem;
+        --h2-font-size: 1.25rem;
+        --h3-font-size: 1rem;
+        --normal-font-size: 0.938rem;
+        --small-font-size: 0.813rem;
+        --smaller-font-size: 0.75rem;
+    }
+}
+
+
+
+
+/*------------------- Page Container Css -------------------*/
+
+.button:hover {
+    background-color: var(--title-color-dark);
+}
+
+.button__icon {
+    margin-left: var(--mb-0-5);
+}
+
+.button--flex {
+    display: inline-flex;
+    align-items: center;
+}
+
+
+
+/* For medium devices */
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0 0 var(--header-height) 0;
+        overflow-x: hidden; /* Ensure no overflow */
+    }
+
+    .section {
+        padding: 2rem 0 4rem;
+        max-width: 100%; /* Ensure no overflow */
+    }
+
+    .section__subtitle {
+        margin-bottom: var(--mb-3);
+    }
+}
+
+@media screen and (max-width: 576px) {
+    /* No specific styles, but max-width should be managed */
+}
+
+/* For small devices */
+@media screen and (max-width: 350px) {
+    :root {
+        --big-font-size: 2.25rem;
+    }
+
+    .container {
+        margin-left: var(--mb-1);
+        margin-right: var(--mb-1);
+        max-width: 100%; /* Ensure no overflow */
+    }
+}
+
+
+
+.nav {
+    height: calc(var(--header-height) + 1.25rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.nav-logo {
+    color: var(--title-color);
+    font-weight: var(--font-semi-bold);
+    font-size: 2rem;
+}
+
+.nav-toggle {
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+}
+
+.nav-list {
+    display: flex;
+    column-gap: 2rem;
+    font-weight: var(--font-semi-bold);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--small-font-size);
+    color: var(--title-color);
+    transition: 0.3s;
+}
+
+    .nav-link:hover {
+        color: rgb(110, 35, 119);
+    }
+
+.nav-close:hover {
+    color: var(--title-color-dark);
+}
+
+.nav-close,
+.nav-icons,
+.nav-toggle {
+    display: none;
+}
+
+/* For large devices */
+@media screen and (max-width: 768px) {
+    .header {
+        top: initial;
+        bottom: 0;
+    }
+
+    .nav {
+        height: var(--header-height);
+    }
+
+    .nav-menu {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--body-color);
+        padding: 2rem 1.5rem 4rem;
+        border-radius: 1.5rem 1.5rem 0 0;
+        box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.15);
+        transition: 0.3s;
+    }
+
+    .show-menu {
+        bottom: 0;
+    }
+
+    .nav-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+}
+
+/* For small devices */
+@media screen and (max-width: 350px) {
+    .nav-menu {
+        padding: 1.5rem 0.5rem 3rem;
+    }
+
+    .nav-list {
+        column-gap: 0;
+    }
+}
+
+
+
+
+
+
+
+.header {
+    background: linear-gradient(135deg, rgba(20, 90, 120, 0.9), /* Bleu profond avec une touche de noir */
+    rgba(15, 60, 90, 0.85) /* Variante sombre pour une profondeur accrue */
+    );
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Ombre plus marquée */
+    color: #fff; /* Texte blanc pour un bon contraste */
+}
+
+
+
+
+
+
+
+/* Section Hero */
+.hero-container {
+    margin: 0 10%;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px 0;
+}
+
+.hero-text h1 {
+    color: #fd0100;
+    font-size: 16px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.hero-text h2 {
+    color: #fff;
+    font-size: 48px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-text p {
+    color: #e2d6d6;
+    font-size: 16px;
+    margin-bottom: 30px;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.hero-buttons a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #fd0100;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #2a55ad;
+    color: #fff;
+}
+
+.hero-images img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive Design */
+
+/* For large devices (desktops) */
+@media screen and (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        align-items: left;
+        text-align: left;
+    }
+
+    .hero-container {
+        margin: 0 5%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hero-text h2 {
+        font-size: 36px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+        max-width: 400px;
+    }
+
+    .hero-images img {
+        max-width: 70%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero {
+        padding: 50px 0;
+    }
+
+    .hero-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hero-text h2 {
+        font-size: 32px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    .hero-images img {
+        max-width: 60%;
+    }
+}
+
+/* For small devices (large smartphones) */
+@media screen and (max-width: 576px) {
+    .hero {
+        padding: 30px 0;
+    }
+
+    .hero-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .hero-text h2 {
+        font-size: 28px;
+    }
+
+    .hero-text p {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .hero-buttons a {
+        padding: 8px 15px;
+        margin-right: 5px;
+    }
+
+    .hero-images img {
+        max-width: 50%;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    .hero-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .hero-text h2 {
+        font-size: 24px;
+    }
+
+    .hero-text p {
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .hero-buttons a {
+        padding: 5px 10px;
+        margin-right: 3px;
+    }
+
+    .hero-images img {
+        max-width: 50%;
+    }
+}
