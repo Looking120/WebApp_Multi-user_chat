@@ -112,8 +112,9 @@
                             $('#chatUserName').text(userName);
                             newMessagesMap[userId] = false;
                             $(`#member-${userId} .new-message-indicator`).hide();
-
-                            fetchMessages(userId);
+                            setInterval(() => fetchMessages(userId), 2000)
+                            
+                         
                         });
                     },
                     error: function (error) {
@@ -150,6 +151,7 @@
                         messagesList.empty();
 
                         messages.forEach(message => {
+                            console.log(message)
                             appendMessage(message, message.senderId === senderId);
                         });
                     },
@@ -165,8 +167,8 @@
                 const messageBg = isSender ? 'bg-success text-white' : 'bg-light text-dark';
 
                 let attachmentsHtml = '';
-                if (message.attachments && message.attachments.length > 0) {
-                    message.attachments.forEach(att => {
+                if (message.attachements && message.attachements.length > 0) {
+                    message.attachements.forEach(att => {
                         attachmentsHtml += `
                                 <div>
                                     <a href="/api/messages/download?id=${att.id}" class="text-primary" download>
@@ -245,7 +247,7 @@
                     }
                 });
             });
-
+          
             // Récupérer les membres lors du chargement initial
             fetchOnlineMembers();
         });
